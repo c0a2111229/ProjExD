@@ -1,5 +1,6 @@
 import random
-import datetime
+import time
+
 a=random.randint(0,2)
 def shutudai(a):
     monndai=["サザエの旦那の名前は？","カツオの妹の名前は？","タラオはカツオから見てどんな関係"]
@@ -7,7 +8,7 @@ def shutudai(a):
     print(monndai[a])
 
 def kaito(a):
-    time1=datetime.now()
+    time1=time.time()
     seikai=[["マスオ","ますお"],["ワカメ","わかめ"],["甥","おい","甥っ子","おいっこ"]]
     b=input("答えるんだ：")
     if a==0 or a==1:
@@ -20,7 +21,7 @@ def kaito(a):
             print("正解！！！")
         else:
             print("出直してこい")
-    time2=datetime.now()
+    time2=time.time()
     print(f"所要時間：{time2-time1}")
 shutudai(a)
 kaito(a)
