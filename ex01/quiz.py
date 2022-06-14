@@ -23,6 +23,7 @@ def kaito(a):
             print("出直してこい")
     time2=time.time()
     print(f"所要時間：{time2-time1:.1f}")
+
 shutudai(a)
 kaito(a)
 
