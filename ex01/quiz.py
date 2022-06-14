@@ -10,14 +10,14 @@ def shutudai(a):
 def kaito(a):
     time1=time.time()
     seikai=[["マスオ","ますお"],["ワカメ","わかめ"],["甥","おい","甥っ子","おいっこ"]]
-    b=input("答えるんだ：")
+    ans=input("答えるんだ：")
     if a==0 or a==1:
-        if b==seikai[a][0] or b==seikai[a][1]:
+        if ans==seikai[a][0] or ans==seikai[a][1]:
             print("正解！！！")
         else:
             print("出直してこい")
     else:
-        if b==seikai[a][0] or b==seikai[a][1] or b==seikai[a][2] or b==seikai[a][3]:
+        if ans==seikai[a][0] or ans==seikai[a][1] or ans==seikai[a][2] or ans==seikai[a][3]:
             print("正解！！！")
         else:
             print("出直してこい")
