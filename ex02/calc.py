@@ -9,6 +9,8 @@ def button_click(event): #通知用の関数
         ans=eval(eqn)
         entry.delete(0,tk.END)
         entry.insert(tk.END,ans)
+    elif txt=="ac":
+        entry.delete(0,tk.END)
     else:
         entry.insert(tk.END,txt)
 
@@ -21,7 +23,7 @@ if __name__=='__main__':
     r=1
     c=0
     num=0
-    for i in [9,8,7,"*",6,5,4,"/",3,2,1,"-",0,"π","=","+","sin","cos","tan","."]: #ボタンの作成
+    for i in [9,8,7,"*",6,5,4,"/",3,2,1,"-",0,"π","=","+","sin","cos","tan",".","ac"]: #ボタンの作成
         button=tk.Button(root,text=i,
                         font=("Times New Roman",30),
                         width=4,height=2)
