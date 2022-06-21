@@ -1,6 +1,6 @@
 import tkinter as tk
 import tkinter.messagebox as tkm
-
+import math
 def button_click(event): #通知用の関数
     btn=event.widget
     txt=btn["text"]
@@ -12,7 +12,6 @@ def button_click(event): #通知用の関数
     else:
         entry.insert(tk.END,txt)
 
-
 if __name__=='__main__':
     root=tk.Tk()
     root.title("電卓") #タイトル
@@ -22,11 +21,11 @@ if __name__=='__main__':
     r=1
     c=0
     num=0
-    for i in [9,8,7,6,5,4,3,2,1,0,"+","="]: #ボタンの作成
+    for i in [9,8,7,"*",6,5,4,"/",3,2,1,"-",0,"π","=","+","sin","cos","tan","."]: #ボタンの作成
         button=tk.Button(root,text=i,
                         font=("Times New Roman",30),
                         width=4,height=2)
-        if num%3==0:
+        if num%4==0:
             r+=1
             c=0
         button.grid(row=r,column=c)
