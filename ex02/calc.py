@@ -9,7 +9,7 @@ def button_click(event): #通知用の関数
         ans=eval(eqn)
         entry.delete(0,tk.END)
         entry.insert(tk.END,ans)
-    elif txt=="ac":
+    elif txt=="ac": #オールクリア
         entry.delete(0,tk.END)
     else:
         entry.insert(tk.END,txt)
