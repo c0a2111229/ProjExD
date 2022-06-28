@@ -23,15 +23,6 @@ def main_proc():
     except:
         pass
     cx, cy=mx*100+50, my*100+50
-    if 15<=count<25: 
-        tori=tk.PhotoImage(file="fig/5.png")
-        canvas.create_image(cx,cy,image=tori,tag="tori")
-    elif 25<=count<35: 
-        tori=tk.PhotoImage(file="fig/7.png")
-        canvas.create_image(cx,cy,image=tori,tag="tori")
-    elif 35<=count: 
-        tori=tk.PhotoImage(file="fig/8.png")
-        canvas.create_image(cx,cy,image=tori,tag="tori")
     canvas.coords("tori",cx,cy)
     root.after(80,main_proc)
 
