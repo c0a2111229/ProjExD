@@ -84,7 +84,7 @@ class Shot:
         scr.sfc.blit(self.sfc, self.rct)
 
     def update(self, scr: Screen):
-        self.rct.move_ip(+10, 0) #右方向に速度１で移動する
+        self.rct.move_ip(+10, 0) #右方向に速度１０で移動する
         self.blit(scr)
         if check_bound(self.rct,scr.rct) != (1,1): #領域外に出たらインスタンスを消す
             del self
