@@ -3,6 +3,7 @@ from pygame.locals import *
 import math
 import sys
 import pygame.mixer
+from random import randint
 
 # 画面サイズ
 SCREEN = Rect(0, 0, 1000, 700)
@@ -89,26 +90,36 @@ class Ball(pygame.sprite.Sprite):
         blocks_collided = pygame.sprite.spritecollide(self, self.blocks, True)
         if blocks_collided:  # 衝突ブロックがある場合
             oldrect = self.rect
+            itemper = randint(0,2) #アイテムが出る確率
             for block in blocks_collided:
                 # ボールが左からブロックへ衝突した場合
                 if oldrect.left < block.rect.left and oldrect.right < block.rect.right:
                     self.rect.right = block.rect.left
                     self.dx = -self.dx
-                    
+                    if itemper == 1:
+                        items = Item("fig/treasure.png",block)
+
                 # ボールが右からブロックへ衝突した場合
                 if block.rect.left < oldrect.left and block.rect.right < oldrect.right:
                     self.rect.left = block.rect.right
                     self.dx = -self.dx
+                    if itemper == 1:
+                        items = Item("fig/treasure.png",block)
 
                 # ボールが上からブロックへ衝突した場合
                 if oldrect.top < block.rect.top and oldrect.bottom < block.rect.bottom:
                     self.rect.bottom = block.rect.top
                     self.dy = -self.dy
+                    if itemper == 1:
+                        items = Item("fig/treasure.png",block)
 
                 # ボールが下からブロックへ衝突した場合
                 if block.rect.top < oldrect.top and block.rect.bottom < oldrect.bottom:
                     self.rect.top = block.rect.bottom
                     self.dy = -self.dy
+                    if itemper == 1:
+                        items = Item("fig/treasure.png",block)
+                        print(itemper)
                 #self.block_sound.play()     # 効果音を鳴らす
                 self.hit += 1               # 衝突回数
                 self.score.add_score(self.hit * 10)   # 衝突回数に応じてスコア加点
@@ -134,10 +145,27 @@ class Score():
         screen.blit(img, (self.x, self.y))
     def add_score(self, x):
         self.score += x
+    
+#アイテムのクラス
+class Item(pygame.sprite.Sprite):
+    def __init__(self,imagename,block):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.image = pygame.image.load(imagename).convert()
+        self.image = pygame.transform.scale(self.image, (40,30))
+        self.rect = self.image.get_rect()
+        self.rect.centerx = block.rect.centerx
+        self.rect.centery = block.rect.centery
+
+    def update(self):
+        self.rect.centery+=2
+        if SCREEN.bottom == self.rect.top:
+            self.kill
+
+
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode(SCREEN.size) #FULLSCREEN
+    screen = pygame.display.set_mode(SCREEN.size, FULLSCREEN) 
     
     # 描画用のスプライトグループ
     group = pygame.sprite.RenderUpdates()  
@@ -148,6 +176,7 @@ def main():
     # スプライトグループに追加    
     Paddle.containers = group
     Ball.containers = group
+    Item.containers = group
     Block.containers = group, blocks
 
     # パドルの作成
@@ -159,7 +188,7 @@ def main():
             Block("fig/block.png", x, y)
 
     # スコアを画面(10, 10)に表示
-    score = Score(10, 10)    
+    score = Score(10, 10)  
 
     # ボールを作成
     Ball("fig/ball.png",
