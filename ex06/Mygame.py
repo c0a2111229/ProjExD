@@ -5,7 +5,7 @@ import sys
 import pygame.mixer
 
 # 画面サイズ
-SCREEN = Rect(0, 0, 400, 400)
+SCREEN = Rect(0, 0, 1000, 700)
 
 # バドルのクラス
 class Paddle(pygame.sprite.Sprite):
@@ -137,7 +137,7 @@ class Score():
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode(SCREEN.size)
+    screen = pygame.display.set_mode(SCREEN.size) #FULLSCREEN
     
     # 描画用のスプライトグループ
     group = pygame.sprite.RenderUpdates()  
@@ -154,8 +154,8 @@ def main():
     paddle = Paddle("fig/paddle.png")
 
     # ブロックの作成(14*10)
-    for x in range(1, 15):
-        for y in range(1, 11):
+    for x in range(1, 38):
+        for y in range(1, 20):
             Block("fig/block.png", x, y)
 
     # スコアを画面(10, 10)に表示
