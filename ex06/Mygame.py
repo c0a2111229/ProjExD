@@ -89,50 +89,50 @@ class Ball(pygame.sprite.Sprite):
         # ボールと衝突したブロックリストを取得（Groupが格納しているSprite中から、指定したSpriteと接触しているものを探索）
         blocks_collided = pygame.sprite.spritecollide(self, self.blocks, True)
         if blocks_collided:  # 衝突ブロックがある場合
-            oldrect = self.rect
             itemper = randint(0,2) #アイテムが出る確率
             for block in blocks_collided:
+                if itemper == 1 and block.kill_int == 0:
+                        items = Item("fig/treasure.png",block)
+                if block.kill_int == 1:
+                    Block("fig/block.png", block.x, block.y, 0)
+                oldrect = self.rect
                 # ボールが左からブロックへ衝突した場合
                 if oldrect.left < block.rect.left and oldrect.right < block.rect.right:
                     self.rect.right = block.rect.left
                     self.dx = -self.dx
-                    if itemper == 1:
-                        items = Item("fig/treasure.png",block)
 
                 # ボールが右からブロックへ衝突した場合
                 if block.rect.left < oldrect.left and block.rect.right < oldrect.right:
                     self.rect.left = block.rect.right
                     self.dx = -self.dx
-                    if itemper == 1:
-                        items = Item("fig/treasure.png",block)
 
                 # ボールが上からブロックへ衝突した場合
                 if oldrect.top < block.rect.top and oldrect.bottom < block.rect.bottom:
                     self.rect.bottom = block.rect.top
                     self.dy = -self.dy
-                    if itemper == 1:
-                        items = Item("fig/treasure.png",block)
 
                 # ボールが下からブロックへ衝突した場合
                 if block.rect.top < oldrect.top and block.rect.bottom < oldrect.bottom:
                     self.rect.top = block.rect.bottom
                     self.dy = -self.dy
-                    if itemper == 1:
-                        items = Item("fig/treasure.png",block)
-                        print(itemper)
+
                 #self.block_sound.play()     # 効果音を鳴らす
                 self.hit += 1               # 衝突回数
-                self.score.add_score(self.hit * 10)   # 衝突回数に応じてスコア加点
+                if block.kill_int == 0:
+                    self.score.add_score(self.hit * 10)   # 衝突回数に応じてスコア加点
 
 # ブロックのクラス
 class Block(pygame.sprite.Sprite):
-    def __init__(self, filename, x, y):
+    def __init__(self, filename, x, y, kill_int):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.image = pygame.image.load(filename).convert()
         self.rect = self.image.get_rect()
         # ブロックの左上座標
         self.rect.left = SCREEN.left + x * self.rect.width
         self.rect.top = SCREEN.top + y * self.rect.height
+        self.kill_int = kill_int
+        self.x = x
+        self.y = y
 
 # スコアのクラス
 class Score():
@@ -185,7 +185,12 @@ def main():
     # ブロックの作成(14*10)
     for x in range(1, 38):
         for y in range(1, 20):
-            Block("fig/block.png", x, y)
+            if randint(0,10)==1:
+                kill_int = 1
+                Block("fig/D_block.png", x, y, kill_int)
+            else:    
+                kill_int = 0
+                Block("fig/block.png", x, y, kill_int)
 
     # スコアを画面(10, 10)に表示
     score = Score(10, 10)  
