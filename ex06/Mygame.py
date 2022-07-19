@@ -4,6 +4,7 @@ import math
 import sys
 import pygame.mixer
 from random import randint
+import time
 
 # 画面サイズ
 SCREEN = Rect(0, 0, 1000, 700)
@@ -77,14 +78,15 @@ class Ball(pygame.sprite.Sprite):
             angle = math.radians(y)                     # 反射角度
             self.dx = self.speed * math.cos(angle)
             self.dy = -self.speed * math.sin(angle)
-            #self.paddle_sound.play()                    # 反射音
+            self.paddle_sound.play()                    # 反射音
 
         # ボールを落とした場合
         if self.rect.top > SCREEN.bottom:
-            self.update = self.start                    # ボールを初期状態に
+            pygame.mixer.music.stop()                    # ボールを初期状態に
             self.gameover_sound.play()
             self.hit = 0
-            self.score.add_score(-100)                  # スコア減点-100点
+            self.score.add_score(-100)                   # スコア減点-100点
+            self.update = time.sleep(4)                  # ボールを落としたら5秒後にウインドウが消滅
 
         # ボールと衝突したブロックリストを取得（Groupが格納しているSprite中から、指定したSpriteと接触しているものを探索）
         blocks_collided = pygame.sprite.spritecollide(self, self.blocks, True)
@@ -116,7 +118,7 @@ class Ball(pygame.sprite.Sprite):
                     self.rect.top = block.rect.bottom
                     self.dy = -self.dy
 
-                #self.block_sound.play()     # 効果音を鳴らす
+                self.block_sound.play()     # 効果音を鳴らす
                 self.hit += 1               # 衝突回数
                 if block.kill_int == 0:
                     self.score.add_score(self.hit * 10)   # 衝突回数に応じてスコア加点
@@ -166,6 +168,17 @@ class Item(pygame.sprite.Sprite):
 def main():
     pygame.init()
     screen = pygame.display.set_mode(SCREEN.size, FULLSCREEN) 
+    Ball.paddle_sound = pygame.mixer.Sound("fig/SE1.mp3")
+    Ball.paddle_sound.set_volume(0.75) #SE音量をBGMの3/4に設定 
+    Ball.block_sound = pygame.mixer.Sound("fig/SE1.mp3")
+    Ball.block_sound.set_volume(0.75) #SE音量をBGMの3/4に設定
+    Ball.gameover_sound = pygame.mixer.Sound("fig/GAMEOVER.mp3")
+    Ball.gameover_sound.set_volume(0.75) #GAMEOVER音量をBGMの3/4に設定
+    #BGMを流す
+    pygame.mixer.init(frequency=44100)
+    pygame.mixer.music.load("fig/BGM.wav")
+    pygame.mixer.music.set_volume(1)
+    pygame.mixer.music.play(1) #ループ
     
     # 描画用のスプライトグループ
     group = pygame.sprite.RenderUpdates()  
