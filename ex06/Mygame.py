@@ -6,10 +6,10 @@ import pygame.mixer
 from random import randint
 import time
 
-# 画面サイズ
+# 画面サイズ　前迫
 SCREEN = Rect(0, 0, 1000, 700)
 
-# バドルのクラス
+# バドルのクラス　根本
 class Paddle(pygame.sprite.Sprite):
     # コンストラクタ（初期化メソッド）
     def __init__(self, filename):
@@ -22,7 +22,7 @@ class Paddle(pygame.sprite.Sprite):
         self.rect.centerx = pygame.mouse.get_pos()[0]  # マウスのx座標をパドルのx座標に
         self.rect.clamp_ip(SCREEN)                     # ゲーム画面内のみで移動
 
-# ボールのクラス
+# ボールのクラス　望月、根本、都築、渡辺、前迫、内田
 class Ball(pygame.sprite.Sprite):
     # コンストラクタ（初期化メソッド）
     def __init__(self, filename, paddle, blocks, score, speed, angle_left, angle_right):
@@ -123,7 +123,7 @@ class Ball(pygame.sprite.Sprite):
                 if block.kill_int == 0:
                     self.score.add_score(self.hit * 10)   # 衝突回数に応じてスコア加点
 
-# ブロックのクラス
+# ブロックのクラス　都築
 class Block(pygame.sprite.Sprite):
     def __init__(self, filename, x, y, kill_int):
         pygame.sprite.Sprite.__init__(self, self.containers)
@@ -136,7 +136,7 @@ class Block(pygame.sprite.Sprite):
         self.x = x
         self.y = y
 
-# スコアのクラス
+# スコアのクラス　内田
 class Score():
     def __init__(self, x, y):
         self.sysfont = pygame.font.SysFont(None, 20)
@@ -148,7 +148,7 @@ class Score():
     def add_score(self, x):
         self.score += x
     
-#アイテムのクラス
+#アイテムのクラス　前迫、都築
 class Item(pygame.sprite.Sprite):
     def __init__(self,imagename,block):
         pygame.sprite.Sprite.__init__(self, self.containers)
@@ -174,7 +174,7 @@ def main():
     Ball.block_sound.set_volume(0.75) #SE音量をBGMの3/4に設定
     Ball.gameover_sound = pygame.mixer.Sound("fig/GAMEOVER.mp3")
     Ball.gameover_sound.set_volume(0.75) #GAMEOVER音量をBGMの3/4に設定
-    #BGMを流す
+    #BGMを流す 渡辺
     pygame.mixer.init(frequency=44100)
     pygame.mixer.music.load("fig/BGM.wav")
     pygame.mixer.music.set_volume(1)
@@ -195,7 +195,7 @@ def main():
     # パドルの作成
     paddle = Paddle("fig/paddle.png")
 
-    # ブロックの作成(14*10)
+    # ブロックの作成(14*10)　前迫、都築
     for x in range(1, 38):
         for y in range(1, 20):
             if randint(0,10)==1:
@@ -205,17 +205,17 @@ def main():
                 kill_int = 0
                 Block("fig/block.png", x, y, kill_int)
 
-    # スコアを画面(10, 10)に表示
+    # スコアを画面(10, 10)に表示　内田
     score = Score(10, 10)  
 
-    # ボールを作成
+    # ボールを作成　望月
     Ball("fig/ball.png",
          paddle, blocks, score, 5, 135, 45)
     
     clock = pygame.time.Clock()
 
     while (1):
-        clock.tick(60)      # フレームレート(60fps)
+        clock.tick(120)      # フレームレート(60fps)
         screen.fill((0,20,0))
         # 全てのスプライトグループを更新
         group.update()
@@ -226,7 +226,7 @@ def main():
         # 画面更新 
         pygame.display.update()
 
-        # キーイベント（終了）
+        # キーイベント（終了）　根本、渡辺
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
